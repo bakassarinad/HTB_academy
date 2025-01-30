@@ -132,3 +132,4 @@ ffuf -w ./custom_wordlist.txt -u http://83.136.250.52:38028/login.php -X POST -H
 
 Output: dWinaldasD13
 
+For otp exploitation need to catch the response of redirection and change Location Header to /profile.php
