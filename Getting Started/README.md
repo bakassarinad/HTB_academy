@@ -33,3 +33,37 @@ Answer: HTB{w3b_3num3r4710n_r3v34l5_53cr375}
 Question: Try to identify the services running on the server above, and then try to search to find public exploits to exploit them. Once you do, try to get the content of the '/flag.txt' file. (note: the web server may take a few seconds to start)
 
 Answer: HTB{my_f1r57_h4ck}
+
+# Privilege Escalation
+Kernel Exploits: Linux version 3.9.0-73-generic - DirtyCow exploit. 
+
+Vulnerable Software: Linux - dpkg -l Windows - C:\Program Files
+
+User Privilege: 1. Sudo 2. SUID 3. Windows Token Privileges 
+Command: sudo -l
+sudo su 
+GTFOBins
+LOLBAS
+
+Scheduled Tasks: 
+1. Add a new cron job 
+2. Trick a job to execute a malware
+
+/etc/crontab
+/etc/cron.d
+/var/spool/cron/crontabs/root
+
+Exposed credentials:
+
+SSH Keys:
+/home/user/.ssh/id_rsa or /root/.ssh/id_rsa
+
+Command: ssh root@10.10.10.10 -i id_rsa
+
+Question: SSH into the server above with the provided credentials, and use the '-p xxxxxx' to specify the port shown above. Once you login, try to find a way to move to 'user2', to get the flag in '/home/user2/flag.txt'.
+
+Answer: HTB{l473r4l_m0v3m3n7_70_4n07h3r_u53r}
+
+Question: Once you gain access to 'user2', try to find a way to escalate your privileges to root, to get the flag in '/root/flag.txt'.
+
+Answer: HTB{pr1v1l363_35c4l4710n_2_r007}
