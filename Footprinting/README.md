@@ -100,3 +100,26 @@ Answer: win2k.dev.inlanefreight.htb
 
 # SMTP
 
+The Simple Mail Transfer Protocol is a protocol for sending emails in an IP network. Ports: 25, 587.
+
+Question: Enumerate the SMTP service and submit the banner, including its version as the answer.
+
+Answer: InFreight ESMTP v2.11
+
+Usage: telnet <IP> 25
+
+Question: Enumerate the SMTP service even further and find the username that exists on the system. Submit it as the answer.
+
+Answer: robin
+
+Usage:
+
+msfconsole
+
+use smtp_enum
+
+set rhosts <IP>
+
+set USER_FILE /home/htb-ac-611037/Desktop/names.txt (names.txt is the Resources dictionary of usernames)
+
+run
