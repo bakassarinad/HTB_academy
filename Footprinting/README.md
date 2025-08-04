@@ -123,3 +123,46 @@ set rhosts <IP>
 set USER_FILE /home/htb-ac-611037/Desktop/names.txt (names.txt is the Resources dictionary of usernames)
 
 run
+
+# IMAP/POP3
+
+Question: Figure out the exact organization name from the IMAP/POP3 service and submit it as the answer.
+
+Answer: InlaneFreight Ltd
+
+Question: What is the FQDN that the IMAP and POP3 servers are assigned to?
+
+Answer: dev.inlanefreight.htb
+
+Notes: sudo nmap -sV 10.129.11.28 -p110,143,993,995 -v -sC
+
+Question: Enumerate the IMAP service and submit the flag as the answer. (Format: HTB{...})
+
+
+Answer: HTB{roncfbw7iszerd7shni7jr2343zhrj}
+
+Notes: curl -k 'imaps://10.129.11.28' --user robin:robin -v
+
+Question: What is the customized version of the POP3 server?
+
+Answer: InFreight POP3 v9.188
+
+Notes: openssl s_client -connect 10.129.11.28:pop3s
+
+Question: What is the admin email address?
+
+Answer: devadmin@inlanefreight.htb
+
+Notes: openssl s_client -connect 10.129.11.28:imaps
+
+1 LOGIN robin robin
+1 lIST “” *
+1 SELECT DEV.DEPARTMENT.INT
+1 fetch 1 all
+
+
+Question: Try to access the emails on the IMAP server and submit the flag as the answer. (Format: HTB{...})
+
+Answer: HTB{983uzn8jmfgpd8jmof8c34n7zio}
+
+Notes: 1 FETCH 1 BODY[TEXT]
