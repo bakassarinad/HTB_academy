@@ -166,3 +166,67 @@ Question: Try to access the emails on the IMAP server and submit the flag as the
 Answer: HTB{983uzn8jmfgpd8jmof8c34n7zio}
 
 Notes: 1 FETCH 1 BODY[TEXT]
+
+# SNMP
+
+Question: Enumerate the SNMP service and obtain the email address of the admin. Submit it as the answer.
+
+Answer: devadmin@inlanefreight.htb
+
+Notes: snmpwalk -v2c -c public 10.129.5.221
+
+Question: What is the customized version of the SNMP server?
+
+Answer: InFreight SNMP v0.91
+
+Question: Enumerate the custom script that is running on the system and submit its output as the answer.
+
+Answer: HTB{5nMp_fl4g_uidhfljnsldiuhbfsdij44738b2u763g}
+
+# MySQL
+
+Question:  Enumerate the MySQL server and determine the version in use. (Format: MySQL X.X.XX)
+
+Answer: MySQL 8.0.27
+
+Question: During our penetration test, we found weak credentials "robin:robin". We should try these against the MySQL server. What is the email address of the customer "Otto Lang"?
+
+Answer: ultrices@google.htb
+
+# MSSQL
+
+Question: Enumerate the target using the concepts taught in this section. List the hostname of MSSQL server.
+
+Answer: ILF-SQL-01
+
+Question: Connect to the MSSQL instance running on the target using the account (backdoor:Password1), then list the non-default database present on the server.
+
+Answer: Employees 
+
+Link: https://www.hackingarticles.in/mssql-for-pentester-command-execution-with-xp_cmdshell/
+
+# Oracle TNS 
+
+Question: Enumerate the target Oracle database and submit the password hash of the user DBSNMP as the answer.
+
+Answer: E066D214D5421CCC
+
+Useful: wget https://download.oracle.com/otn_software/linux/instantclient/214000/instantclient-basic-linux.x64-21.4.0.0.0dbru.zip && wget https://download.oracle.com/otn_software/linux/instantclient/214000/instantclient-sqlplus-linux.x64-21.4.0.0.0dbru.zip && sudo mkdir -p /opt/oracle && sudo unzip -d /opt/oracle instantclient-basic-linux.x64-21.4.0.0.0dbru.zip && sudo unzip -d /opt/oracle instantclient-sqlplus-linux.x64-21.4.0.0.0dbru.zip && cd /opt/oracle/instantclient_21_4 && find . -type f | sort && export LD_LIBRARY_PATH=/opt/oracle/instantclient_21_4:$LD_LIBRARY_PATH && export PATH=$LD_LIBRARY_PATH:$PATH && source ~/.bashrc && sqlplus -V
+
+It was based on https://www.geeksforgeeks.org/how-to-install-sqlplus-on-linux/
+
+By ozneaf on HackTheBox
+
+# IPMI
+
+Question: What username is configured for accessing the host via IPMI?
+
+Answer: admin
+
+Question: What is the account's cleartext password?
+
+Answer: trinity
+
+Source: https://www.rapid7.com/blog/post/2013/07/02/a-penetration-testers-guide-to-ipmi/
+
+Change the PASS_FILE option to rockyou.txt file 
